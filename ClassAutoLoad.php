@@ -1,6 +1,6 @@
 <?php
 require_once 'conf.php'; // Include configuration file
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "includes/dbConnection.php";
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "Includes/dbConnection.php";
 // Directories to search for class files
 $directories = ["Forms", "Layouts", "Globals", "Proc", "Fncs"];
 
@@ -16,8 +16,8 @@ spl_autoload_register(function ($className) use ($directories) {
 });
 
 /* Create the DB Connection */
-$MYSQL = New dbConnection(DBTYPE,HOSTNAME,DBNAME,HOSTUSER,HOSTPASS,DBPORT);
-// print'<pre>'; print_r($MYSQL); print'</pre>';
+$SQL = New dbConnection($conf['db_type'], $conf['db_host'], $conf['db_name'], $conf['db_user'], $conf['db_pass'], $conf['db_port']);
+// print'<pre>'; print_r($SQL); print'</pre>';
 
 
 // Instantiate objects
@@ -29,4 +29,4 @@ $ObjAuth = new Auth($conf);
 $ObjFncs = new fncs();
 
 
-$ObjAuth->signup($conf, $ObjFncs, $lang, $ObjSendMail);
+$ObjAuth->signup($conf, $ObjFncs, $lang, $ObjSendMail, $SQL);

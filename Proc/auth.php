@@ -9,7 +9,7 @@ class auth{
         return $template;
     }
 
-    public function signup($conf, $ObjFncs, $lang, $ObjSendMail){
+    public function signup($conf, $ObjFncs, $lang, $ObjSendMail, $SQL){
         // code for signup
         if(isset($_POST['signup'])){
 
@@ -61,7 +61,8 @@ class auth{
             // Check for errors
             if (!count($errors)) {
                 // If no errors, proceed with signup logic
-                // die($fullname . " " . $email . " " . $password); // For demonstration purposes only
+                
+                
                 // Perform signup logic (e.g., save to database)
 
                 // Send verification email

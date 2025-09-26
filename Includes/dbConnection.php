@@ -1,13 +1,17 @@
 <?php
-/** ///////////////////////////////////////////////////////////////////
-//  Class: 			dbConnection  MySQLi, PDO                        //
-//  developer:  	Mundabenj                                        //
-//  Date:     		19-09-2025                                       //
-//  Description: 	Multi Database Connector                         //
-//  WebSite: 		https://elearning.strathmore.edu/                //
-////////////////////////////////////////////////////////////////// ***/
+/**
+ * Class:        dbConnection (MySQLi, PDO)
+ * Developer:    Mundabenj
+ * Date:         2025-09-19
+ * Description:  Multi-Database Connector supporting MySQLi and PDO.
+ * Website:      https://elearning.strathmore.edu/
+ */
 /******************************************************************************************
-                                    DataBase Connections
+ * Database Connections
+ * Usage Example:
+ * $db = new dbConnection('MySQLi', 'localhost', 'dbname', 'user', 'pass', 3306);
+ * or
+ * $db = new dbConnection('PDO', 'localhost', 'dbname', 'user', 'pass', 3306);
  ******************************************************************************************/
 class dbConnection{
     //constructor creation
@@ -36,9 +40,9 @@ class dbConnection{
                 if($DB_PORT<>Null){
                     $DB_HOST.=":".$DB_PORT;
                 }
-                $this->connection = new mysqli($DB_HOST,$DB_USER,$DB_PASS,$DB_NAME);
+                $this->connection = new mysqli($DB_HOST,$DB_USER,$DB_PASS,$DB_NAME,$DB_PORT);
                 if ($this->connection->connect_error) { return "Connection failed: " . $this->connection->connect_error; }else{
-                    // echo "Connected successfully";
+                    // print "Connected successfully with ".$DB_TYPE;
                 }
                 break;
             case 'PDO':
@@ -46,13 +50,28 @@ class dbConnection{
                     $DB_HOST.="";
                 }
                 try {
-                    $this->connection = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME", $DB_USER, $DB_PASS);
+                    $this->connection = new PDO("mysql:host=$DB_HOST:$DB_PORT;dbname=$DB_NAME", $DB_USER, $DB_PASS);
                     // set the PDO error mode to exception
                     $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    // echo "Connected successfully";
+                    // print "Connected successfully with ".$DB_TYPE;
                 } catch(PDOException $e) {
                     die("Connection failed: " . $e->getMessage());
                 }
+                break;
+        }
+    }
+    /******************************************************************************************
+    Close Database Connection
+     ******************************************************************************************/
+    public function close() {
+        switch ($this->db_type) {
+            case 'MySQLi':
+                if ($this->connection instanceof mysqli) {
+                    $this->connection->close();
+                }
+                break;
+            case 'PDO':
+                $this->connection = null;
                 break;
         }
     }

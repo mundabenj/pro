@@ -12,11 +12,12 @@ $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVE
 $base_url = $protocol . $_SERVER['HTTP_HOST'] . '/';
 
 // Database Configuration
-$conf['db_type'] = 'pdo'; // Options: 'mysqli' or 'pdo'
+$conf['db_type'] = 'PDO'; // Options: 'MySQLi' or 'PDO'
 $conf['db_host'] = 'localhost'; // Use 'localhost' for local development
 $conf['db_user'] = 'root'; // Use 'root' for local development
 $conf['db_pass'] = 'alex';  // Use '' for local development
 $conf['db_name'] = 'pro'; // Database name
+$conf['db_port'] = '3306'; // Database port
 
 // Site Information
 $conf['site_name'] = 'PRO Community';
