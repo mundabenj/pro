@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 26, 2025 at 02:56 PM
+-- Generation Time: Sep 26, 2025 at 04:18 PM
 -- Server version: 12.0.2-MariaDB
 -- PHP Version: 8.3.25
 
@@ -38,7 +38,15 @@ CREATE TABLE IF NOT EXISTS `gender` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`genderId`),
   UNIQUE KEY `gender` (`gender`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `gender`
+--
+
+INSERT INTO `gender` (`genderId`, `gender`, `updated`, `created`) VALUES
+(1, 'Female', '2024-10-14 17:48:56', '2024-10-14 17:42:16'),
+(2, 'Male', '2024-10-14 17:49:00', '2024-10-14 17:42:22');
 
 -- --------------------------------------------------------
 
@@ -54,7 +62,16 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`roleId`),
   UNIQUE KEY `role` (`role`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`roleId`, `role`, `updated`, `created`) VALUES
+(1, 'Teacher', '2024-10-14 17:49:13', '2024-10-14 17:41:14'),
+(2, 'Student', '2024-10-14 17:49:14', '2024-10-14 17:41:26'),
+(3, 'Admin', '2024-10-14 17:49:16', '2024-10-14 17:41:31');
 
 -- --------------------------------------------------------
 
@@ -70,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `skills` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`skillId`),
   UNIQUE KEY `skill` (`skill`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -81,19 +98,22 @@ CREATE TABLE IF NOT EXISTS `skills` (
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `userId` bigint(10) NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(50) NOT NULL DEFAULT '',
-  `lastname` varchar(50) NOT NULL DEFAULT '',
+  `fullname` varchar(50) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL DEFAULT '',
   `password` varchar(60) NOT NULL DEFAULT '',
+  `token` varchar(10) DEFAULT NULL,
+  `token_expire` datetime NOT NULL DEFAULT current_timestamp(),
+  `mustchange` tinyint(1) NOT NULL DEFAULT 0,
+  `status` enum('Active','Pending','Suspended','Deleted') NOT NULL DEFAULT 'Pending',
   `updated` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created` datetime NOT NULL DEFAULT current_timestamp(),
-  `genderId` tinyint(1) NOT NULL DEFAULT 0,
-  `roleId` tinyint(1) NOT NULL DEFAULT 0,
+  `genderId` tinyint(1) NOT NULL DEFAULT 1,
+  `roleId` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`userId`),
   UNIQUE KEY `email` (`email`),
   KEY `genderId` (`genderId`),
   KEY `roleId` (`roleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 

@@ -10,6 +10,10 @@ Hello {{fullname}},
 You requested an account on <strong>{{site_name}}</strong>.
 Your activation code is:
 <h2>{{activation_code}}</h2>
+
+The verification code is valid for {{token_expire_string}}.
+
+If you did not request this, please ignore this email.
 Regards,
 {{mail_from_name}}
 ";

@@ -9,6 +9,30 @@ class auth{
         return $template;
     }
 
+    // Method to calculate time elapsed
+public function time_elapsed($secs) {
+    $units = array(
+        'year'   => 31556926,
+        'week'   => 604800,
+        'day'    => 86400,
+        'hour'   => 3600,
+        'minute' => 60,
+        'second' => 1
+    );
+
+    $ret = [];
+
+    foreach ($units as $name => $divisor) {
+        $quot = floor($secs / $divisor);
+        if ($quot) {
+            $ret[] = $quot . ' ' . $name . ($quot > 1 ? 's' : '');
+            $secs %= $divisor;
+        }
+    }
+
+    return $ret ? implode(', ', $ret) : '0 seconds';
+}
+
     public function signup($conf, $ObjFncs, $lang, $ObjSendMail, $SQL){
         // code for signup
         if(isset($_POST['signup'])){
@@ -17,10 +41,10 @@ class auth{
             $errors = [];
 
             // Retrieve and sanitize user inputs
-            $fullname = $_SESSION['fullname'] = ucwords(strtolower($_POST['fullname']));
-            $email = $_SESSION['email'] = strtolower($_POST['email']);
-            $password = $_SESSION['password'] = $_POST['password'];
-            
+            $fullname = $_SESSION['fullname'] = $SQL->escape_values(ucwords(strtolower($_POST['fullname'])));
+            $email = $_SESSION['email'] = $SQL->escape_values(strtolower($_POST['email']));
+            $password = $_SESSION['password'] = $SQL->escape_values($_POST['password']);
+
             // Set validation rules
             if (empty($fullname)) {
                 $errors['name_error'] = "Fullname is required";
@@ -62,15 +86,28 @@ class auth{
             if (!count($errors)) {
                 // If no errors, proceed with signup logic
                 
-                
+                // Hash the password before storing it
+                $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+                $token_expire = date('Y-m-d H:i:s', strtotime('+' . $this->time_elapsed($conf['code_expire'])));
+
+                // Prepare user data for insertion
+                $user_data = array('fullname'=>$fullname, 'email'=>$email, 'password'=>$hashed_password, 'status'=>'Pending', 'token'=>$conf['verification_code'], 'token_expire' => $token_expire);
+
+                // Insert user data into the database
+                $save_user = $SQL->insert('users', $user_data);
+
                 // Perform signup logic (e.g., save to database)
+
+                if($save_user === TRUE){
 
                 // Send verification email
                 $variables = [
                     'site_name' => $conf['site_name'],
                     'fullname' => $fullname,
                     'activation_code' => $conf['verification_code'],
-                    'mail_from_name' => $conf['mail_from_name']
+                    'mail_from_name' => $conf['mail_from_name'],
+                    'token_expire_string' => $this->time_elapsed($conf['code_expire'])
                 ]; // Variables to replace in email template
 
                 $mailCnt = [
@@ -89,6 +126,10 @@ class auth{
                 unset($_SESSION['email']);
                 unset($_SESSION['password']);
                 $ObjFncs->setMsg('msg', 'Sign up successful. Please check your email for the verification code', 'success'); // Success message
+                }else{
+                    die('Error: ' . $save_user);
+                    $ObjFncs->setMsg('msg', 'Error during sign up. Please try again later.', 'danger'); // Database error message
+                }
             }else{
                 $ObjFncs->setMsg('errors', $errors, 'danger'); // Set errors in session
                 $ObjFncs->setMsg('msg', 'Please fix the errors below and try again.', 'danger'); // General error message
