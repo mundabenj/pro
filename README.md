@@ -1,1 +1,1 @@
-ICS C Demo
+Class Demo

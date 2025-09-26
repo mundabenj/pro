@@ -1,6 +1,6 @@
 <?php
 require_once 'conf.php'; // Include configuration file
-
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "includes/dbConnection.php";
 // Directories to search for class files
 $directories = ["Forms", "Layouts", "Globals", "Proc", "Fncs"];
 
@@ -14,6 +14,11 @@ spl_autoload_register(function ($className) use ($directories) {
         }
     }
 });
+
+/* Create the DB Connection */
+$MYSQL = New dbConnection(DBTYPE,HOSTNAME,DBNAME,HOSTUSER,HOSTPASS,DBPORT);
+// print'<pre>'; print_r($MYSQL); print'</pre>';
+
 
 // Instantiate objects
 $ObjSendMail = new SendMail();

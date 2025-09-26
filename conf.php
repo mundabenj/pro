@@ -15,13 +15,13 @@ $base_url = $protocol . $_SERVER['HTTP_HOST'] . '/';
 $conf['db_type'] = 'pdo'; // Options: 'mysqli' or 'pdo'
 $conf['db_host'] = 'localhost'; // Use 'localhost' for local development
 $conf['db_user'] = 'root'; // Use 'root' for local development
-$conf['db_pass'] = '';  // Use '' for local development
-$conf['db_name'] = 'nol'; // Database name
+$conf['db_pass'] = 'alex';  // Use '' for local development
+$conf['db_name'] = 'pro'; // Database name
 
 // Site Information
-$conf['site_name'] = 'ICS Community';
-$conf['site_initials'] = 'icsc';
-$conf['site_domain'] = 'icscommunity.com';
+$conf['site_name'] = 'PRO Community';
+$conf['site_initials'] = 'pro';
+$conf['site_domain'] = 'procommunity.com';
 $conf['site_slogan'] = 'Connecting Minds, Building Futures';
 $conf['site_url'] = $base_url . $conf['db_name'] . '/';
 $conf['site_title'] = $conf['site_name'] . ' - ' . $conf['site_slogan'];
