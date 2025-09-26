@@ -1,23 +1,27 @@
 <?php
+require_once 'conf.php'; // Include configuration file
 
-//Load Composer's autoloader (created by composer, not included with PHPMailer)
-require 'Plugins/PHPMailer/vendor/autoload.php';
-require 'conf.php';
+// Directories to search for class files
+$directories = ["Forms", "Layouts", "Globals", "Proc", "Fncs"];
 
-// autoload classes from specified directories
-$directory = ["Forms", "Globals", "Layouts"];
-
-spl_autoload_register(function ($class_name) use ($directory) {
-    foreach ($directory as $dir) {
-        $file = __DIR__ . "/$dir/" . $class_name . '.php';
-        if (file_exists($file)) {
-            require_once $file;
+// Autoload classes from specified directories
+spl_autoload_register(function ($className) use ($directories) {
+    foreach ($directories as $directory) {
+        $filePath = __DIR__ . "/$directory/" . $className . '.php';
+        if (file_exists($filePath)) {
+            require_once $filePath;
             return;
         }
     }
 });
 
-// create an instance of the class
+// Instantiate objects
 $ObjSendMail = new SendMail();
-$ObjLayouts = new layouts($conf);
-$ObjForms = new forms();
+$ObjForm = new forms();
+$ObjLayout = new layouts();
+
+$ObjAuth = new Auth($conf);
+$ObjFncs = new fncs();
+
+
+$ObjAuth->signup($conf, $ObjFncs, $lang, $ObjSendMail);
