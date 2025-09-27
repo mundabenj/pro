@@ -1,5 +1,5 @@
 <?php
-require_once 'conf.php'; // Include configuration file
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'conf.php'; // Include configuration file
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "Includes/dbConnection.php";
 // Directories to search for class files
 $directories = ["Forms", "Layouts", "Globals", "Proc", "Fncs"];

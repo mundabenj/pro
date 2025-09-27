@@ -10,28 +10,26 @@ class auth{
     }
 
     // Method to calculate time elapsed
-public function time_elapsed($secs) {
-    $units = array(
-        'year'   => 31556926,
-        'week'   => 604800,
-        'day'    => 86400,
-        'hour'   => 3600,
-        'minute' => 60,
-        'second' => 1
-    );
-
-    $ret = [];
-
-    foreach ($units as $name => $divisor) {
-        $quot = floor($secs / $divisor);
-        if ($quot) {
-            $ret[] = $quot . ' ' . $name . ($quot > 1 ? 's' : '');
-            $secs %= $divisor;
+    public function time_elapsed($secs) {
+        $units = array(
+            'year'   => 31556926, // Average year in seconds
+            'month'  => 2629743,  // Average month in seconds
+            'week'   => 604800,   // Average week in seconds
+            'day'    => 86400,    // Average day in seconds
+            'hour'   => 3600,     // Average hour in seconds
+            'minute' => 60,       // Average minute in seconds
+            'second' => 1         // Average second in seconds
+        );
+        $ret = [];
+        foreach ($units as $name => $divisor) {
+            $quot = floor($secs / $divisor);
+            if ($quot) {
+                $ret[] = $quot . ' ' . $name . ($quot > 1 ? 's' : '');
+                $secs %= $divisor;
+            }
         }
+        return $ret ? implode(', ', $ret) : '0 seconds';
     }
-
-    return $ret ? implode(', ', $ret) : '0 seconds';
-}
 
     public function signup($conf, $ObjFncs, $lang, $ObjSendMail, $SQL){
         // code for signup
@@ -72,6 +70,12 @@ public function time_elapsed($secs) {
                 $errors['emailDomain_error'] = "Invalid email domain";
             }
 
+            // Check if email already exists in the database
+     		$spot_email_res = $SQL->count_results(sprintf("SELECT email FROM users WHERE email = '%s' LIMIT 1", $email));
+			if ($spot_email_res > 0){
+				$errors['emailExists_error'] = "Email already exists. Please use a different email.";
+			}
+
             // Verify password length
             if (strlen($password) < $conf['min_password_length']) {
                 $errors['passwordLength_error'] = "Password must be at least " . $conf['min_password_length'] . " characters long";
@@ -89,10 +93,11 @@ public function time_elapsed($secs) {
                 // Hash the password before storing it
                 $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-                $token_expire = date('Y-m-d H:i:s', strtotime('+' . $this->time_elapsed($conf['code_expire'])));
+                // Set code expiry time format for the verification code
+                $code_expiry_time = date('Y-m-d H:i:s', strtotime('+' . $this->time_elapsed($conf['code_expiry_time'])));
 
                 // Prepare user data for insertion
-                $user_data = array('fullname'=>$fullname, 'email'=>$email, 'password'=>$hashed_password, 'status'=>'Pending', 'token'=>$conf['verification_code'], 'token_expire' => $token_expire);
+                $user_data = array('fullname'=>$fullname, 'email'=>$email, 'password'=>$hashed_password, 'status'=>'Pending', 'verify_code'=>$conf['verification_code'], 'code_expiry_time' => $code_expiry_time);
 
                 // Insert user data into the database
                 $save_user = $SQL->insert('users', $user_data);
@@ -101,15 +106,16 @@ public function time_elapsed($secs) {
 
                 if($save_user === TRUE){
 
-                // Send verification email
+                // Prepare variables to replace in email template
                 $variables = [
                     'site_name' => $conf['site_name'],
                     'fullname' => $fullname,
                     'activation_code' => $conf['verification_code'],
                     'mail_from_name' => $conf['mail_from_name'],
-                    'token_expire_string' => $this->time_elapsed($conf['code_expire'])
-                ]; // Variables to replace in email template
+                    'code_expiry_string' => $this->time_elapsed($conf['code_expiry_time'])
+                ];
 
+                // Prepare email content
                 $mailCnt = [
                     'name_from' => $conf['mail_from_name'],
                     'mail_from' => $conf['mail_from'],
@@ -117,9 +123,10 @@ public function time_elapsed($secs) {
                     'mail_to' => $email,
                     'subject' => $this->bindEmailVars($lang['reg_ver_subject'], $variables),
                     'body' => nl2br($this->bindEmailVars($lang['reg_ver_body'], $variables))
-                ]; // Prepare email content
+                ];
 
-                $ObjSendMail->Send_Mail($conf, $mailCnt); // Send the email
+                // Send verification email
+                $ObjSendMail->Send_Mail($conf, $mailCnt); 
 
                 // Clear session data after successful signup
                 unset($_SESSION['fullname']);

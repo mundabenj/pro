@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 26, 2025 at 04:18 PM
--- Server version: 12.0.2-MariaDB
+-- Generation Time: Sep 27, 2025 at 05:51 AM
+-- Server version: 11.7.2-MariaDB
 -- PHP Version: 8.3.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -38,15 +38,16 @@ CREATE TABLE IF NOT EXISTS `gender` (
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`genderId`),
   UNIQUE KEY `gender` (`gender`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `gender`
 --
 
 INSERT INTO `gender` (`genderId`, `gender`, `updated`, `created`) VALUES
-(1, 'Female', '2024-10-14 17:48:56', '2024-10-14 17:42:16'),
-(2, 'Male', '2024-10-14 17:49:00', '2024-10-14 17:42:22');
+(1, 'Female', '2025-09-27 05:21:47', '2025-09-27 05:21:47'),
+(2, 'Male', '2025-09-27 05:21:47', '2025-09-27 05:21:47'),
+(3, 'Rather not say', '2025-09-27 05:21:47', '2025-09-27 05:21:47');
 
 -- --------------------------------------------------------
 
@@ -69,9 +70,9 @@ CREATE TABLE IF NOT EXISTS `roles` (
 --
 
 INSERT INTO `roles` (`roleId`, `role`, `updated`, `created`) VALUES
-(1, 'Teacher', '2024-10-14 17:49:13', '2024-10-14 17:41:14'),
-(2, 'Student', '2024-10-14 17:49:14', '2024-10-14 17:41:26'),
-(3, 'Admin', '2024-10-14 17:49:16', '2024-10-14 17:41:31');
+(1, 'Admin', '2025-09-27 05:21:47', '2025-09-27 05:21:47'),
+(2, 'Teacher', '2025-09-27 05:21:47', '2025-09-27 05:21:47'),
+(3, 'Student', '2025-09-27 05:21:47', '2025-09-27 05:21:47');
 
 -- --------------------------------------------------------
 
@@ -101,8 +102,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `fullname` varchar(50) NOT NULL DEFAULT '',
   `email` varchar(50) NOT NULL DEFAULT '',
   `password` varchar(60) NOT NULL DEFAULT '',
-  `token` varchar(10) DEFAULT NULL,
-  `token_expire` datetime NOT NULL DEFAULT current_timestamp(),
+  `verify_code` varchar(10) DEFAULT NULL,
+  `code_expiry_time` datetime NOT NULL DEFAULT current_timestamp(),
   `mustchange` tinyint(1) NOT NULL DEFAULT 0,
   `status` enum('Active','Pending','Suspended','Deleted') NOT NULL DEFAULT 'Pending',
   `updated` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),

@@ -20,9 +20,9 @@ $conf['db_name'] = 'pro'; // Database name
 $conf['db_port'] = '3306'; // Database port
 
 // Site Information
-$conf['site_name'] = 'PRO Community';
-$conf['site_initials'] = 'pro';
-$conf['site_domain'] = 'procommunity.com';
+$conf['site_name'] = 'PRO Academic Community';
+$conf['site_initials'] = 'proac';
+$conf['site_domain'] = 'proac.com';
 $conf['site_slogan'] = 'Connecting Minds, Building Futures';
 $conf['site_url'] = $base_url . $conf['db_name'] . '/';
 $conf['site_title'] = $conf['site_name'] . ' - ' . $conf['site_slogan'];
@@ -54,5 +54,8 @@ $conf['valid_email_domains'] = [$conf['site_domain'], 'gmail.com', 'yahoo.com', 
 // Set verification code
 $conf['verification_code'] = rand(100000, 999999); // Example: 6-digit code
 
-// set token expiry time
-$conf['code_expire'] = 86400; // Token password expiry time in seconds
+// Set code expiry time
+$conf['code_expiry_time'] = 86400; // Code expiry time in seconds
+
+// Other configurations
+$conf['items_per_page'] = 10; // Items per page for pagination
