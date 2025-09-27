@@ -133,13 +133,19 @@ class auth{
                 unset($_SESSION['email']);
                 unset($_SESSION['password']);
                 $ObjFncs->setMsg('msg', 'Sign up successful. Please check your email for the verification code', 'success'); // Success message
+                header("Location: verify_code.php"); // Redirect to verification page
+                exit();
                 }else{
                     die('Error: ' . $save_user);
                     $ObjFncs->setMsg('msg', 'Error during sign up. Please try again later.', 'danger'); // Database error message
+                    header("Location: signup.php"); // Redirect to signup page
+                    exit();
                 }
             }else{
                 $ObjFncs->setMsg('errors', $errors, 'danger'); // Set errors in session
                 $ObjFncs->setMsg('msg', 'Please fix the errors below and try again.', 'danger'); // General error message
+                header("Location: signup.php"); // Redirect to signup page
+                exit();
             }
         }
 }

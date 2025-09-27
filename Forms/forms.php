@@ -30,13 +30,13 @@ class forms {
     <?php print (isset($err['passwordLength_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['passwordLength_error'].'</div>' : ''); ?>
     <?php print (isset($err['passwordComplexity_error']) ? '<div id="nameHelp" class="alert alert-danger">'.$err['passwordComplexity_error'].'</div>' : ''); ?>
   </div>
-          <?php $this->submit_button("Sign Up", "signup"); ?> <a href="signin.php">Already have an account? Log in</a>
+          <?php $this->submit_button("Sign Up", "signup"); ?> Already have an account? <a href="signin.php">Sign In</a>
 </form>
 
 <?php
     }
 
-    public function code_verification($conf) {
+    public function verify_code($conf, $ObjFncs) {
         ?>
     <h1>Code Verification</h1>
     <form action="" method="post" autocomplete="off">
@@ -44,7 +44,20 @@ class forms {
         <label for="verification_code" class="form-label">Verification Code</label>
         <input type="text" class="form-control" id="verification_code" name="verification_code" placeholder="Enter your verification code" required>
       </div>
-      <?php $this->submit_button("Verify Code", "verify_code"); ?>
+      <?php $this->submit_button("Verify Code", "verify_code"); ?> Can't verify? <a href="signin.php">Resend code</a>
+    </form>
+    <?php
+    }
+
+    public function forgot_password($conf, $ObjFncs) {
+        ?>
+    <h1>Forgot Password</h1>
+    <form action="" method="post" autocomplete="off">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+      </div>
+      <?php $this->submit_button("Send Code", "send_code"); ?> Dont have an account? <a href="signup.php">Sign up</a>
     </form>
     <?php
     }
@@ -62,7 +75,7 @@ class forms {
         <label for="exampleInputPassword1" class="form-label">Password</label>
         <input type="password" class="form-control" id="exampleInputPassword1">
       </div>
-        <?php $this->submit_button("Sign In", "signin"); ?> <a href="signup.php">Don't have an account? Sign up</a>
+        <?php $this->submit_button("Sign In", "signin"); ?> Don't have an account? <a href="signup.php">Sign up</a> Or <a href="forgot_password.php">Reset password</a>
     </form>
         <?php
     }

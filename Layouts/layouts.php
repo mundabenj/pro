@@ -72,7 +72,7 @@ public function content($conf) {
             <div class="row align-items-md-stretch">
                <div class="col-md-6">
                   <div class="h-100 p-5 text-bg-dark rounded-3">
-                     <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') {$ObjForm->signup($conf, $ObjFncs); } elseif(basename($_SERVER['PHP_SELF']) == 'signin.php') {$ObjForm->signin($conf, $ObjFncs); } ?>
+                     <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') {$ObjForm->signup($conf, $ObjFncs); } elseif(basename($_SERVER['PHP_SELF']) == 'signin.php') {$ObjForm->signin($conf, $ObjFncs); } elseif(basename($_SERVER['PHP_SELF']) == 'verify_code.php') {$ObjForm->verify_code($conf, $ObjFncs); } elseif(basename($_SERVER['PHP_SELF']) == 'forgot_password.php') {$ObjForm->forgot_password($conf, $ObjFncs); } ?>
                   </div>
                </div>
                <div class="col-md-6">
