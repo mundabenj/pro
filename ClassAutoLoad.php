@@ -1,4 +1,10 @@
 <?php
+
+// Check if configuration file exists
+if (!file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'conf.php')) {
+    die('Configuration file not found. Please create conf.php from conf.sample.php and configure it.');
+}
+
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'conf.php'; // Include configuration file
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "Includes/dbConnection.php";
 // Directories to search for class files
