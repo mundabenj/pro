@@ -2,24 +2,42 @@
 // define database constants
 require_once '../ClassAutoLoad.php';
 
-// Seed roles data
-$insert_roles = $SQL->insert('roles', array('roleName' => 'Admin'));
-$insert_roles = $SQL->insert('roles', array('roleName' => 'User'));
-$insert_roles = $SQL->insert('roles', array('roleName' => 'Guest'));
-if ($insert_roles === TRUE) {
-    echo "Roles seeded successfully. | ";
-} else {
-    echo "Error seeding roles: " . $insert_roles;
+// Seeders for roles
+$roles = [
+    'admin', 
+    'editor', 
+    'viewer'
+];
+foreach ($roles as $role) {
+    $SQL->insert('roles', ['roleName' => $role]);
 }
 
-// Seed genders data
-$insert_genders = $SQL->insert('genders', array('genderName' => 'Male'));
-$insert_genders = $SQL->insert('genders', array('genderName' => 'Female'));
-$insert_genders = $SQL->insert('genders', array('genderName' => 'Other'));
-
-// Check if genders were seeded successfully
-if ($insert_genders === TRUE) {
-    echo "Genders seeded successfully. | ";
-} else {
-    echo "Error seeding genders: " . $insert_genders;
+// Seeders for genders
+$genders = [
+    'female', 
+    'male', 
+    'prefer not to say'
+];
+foreach ($genders as $gender) {
+    $SQL->insert('genders', ['genderName' => $gender]);
 }
+
+// Seeders for skills
+$skills = [
+    'PHP', 
+    'JavaScript', 
+    'HTML', 
+    'CSS', 
+    'MySQL', 
+    'Python', 
+    'Java', 
+    'C#', 
+    'Ruby', 
+    'Go'
+];
+
+foreach ($skills as $skill) {
+    $SQL->insert('skills', ['skillName' => $skill]);
+}
+
+echo "Database seeding completed. | " . date('Y-m-d H:i:s');
