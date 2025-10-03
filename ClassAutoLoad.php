@@ -31,8 +31,7 @@ $ObjSendMail = new SendMail();
 $ObjForm = new forms();
 $ObjLayout = new layouts();
 
-$ObjAuth = new Auth($conf);
+$ObjAuth = new Auth();
 $ObjFncs = new fncs();
 
-
-$ObjAuth->signup($conf, $ObjFncs, $lang, $ObjSendMail, $SQL);
+$ObjAuth->signup();

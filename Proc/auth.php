@@ -31,7 +31,8 @@ class auth{
         return $ret ? implode(', ', $ret) : '0 seconds';
     }
 
-    public function signup($conf, $ObjFncs, $lang, $ObjSendMail, $SQL){
+    public function signup(){
+        global $conf, $ObjFncs, $lang, $ObjSendMail, $SQL;
         // code for signup
         if(isset($_POST['signup'])){
 
@@ -148,5 +149,5 @@ class auth{
                 exit();
             }
         }
-}
+    }
 }

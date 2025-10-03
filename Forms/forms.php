@@ -7,7 +7,8 @@ class forms {
         <?php
     }
 
-    public function signup($conf, $ObjFncs) {
+    public function signup() {
+      global $conf, $ObjFncs;
       $err = $ObjFncs->getMsg('errors'); print $ObjFncs->getMsg('msg');
     ?>
 <h1>Sign Up</h1>
@@ -36,7 +37,8 @@ class forms {
 <?php
     }
 
-    public function verify_code($conf, $ObjFncs) {
+    public function verify_code() {
+      global $conf, $ObjFncs;
       $err = $ObjFncs->getMsg('errors'); print $ObjFncs->getMsg('msg');
         ?>
     <h1>Code Verification</h1>
@@ -50,7 +52,8 @@ class forms {
     <?php
     }
 
-    public function forgot_password($conf, $ObjFncs) {
+    public function forgot_password() {
+      global $conf, $ObjFncs;
       $err = $ObjFncs->getMsg('errors'); print $ObjFncs->getMsg('msg');
         ?>
     <h1>Forgot Password</h1>
@@ -65,6 +68,7 @@ class forms {
     }
 
     public function signin() {
+      global $conf, $ObjFncs;
       $err = $ObjFncs->getMsg('errors'); print $ObjFncs->getMsg('msg');
         ?>
     <h1>Sign In</h1>
