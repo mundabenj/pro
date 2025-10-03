@@ -6,7 +6,11 @@ require_once '../ClassAutoLoad.php';
 $roles = [
     'admin', 
     'editor', 
-    'viewer'
+    'viewer',
+    'student',
+    'instructor',
+    'guest',
+    'moderator'
 ];
 foreach ($roles as $role) {
     $SQL->insert('roles', ['roleName' => $role]);
@@ -33,7 +37,26 @@ $skills = [
     'Java', 
     'C#', 
     'Ruby', 
-    'Go'
+    'Go',
+    'Swift',
+    'Kotlin',
+    'SQL',
+    'NoSQL',
+    'Django',
+    'Flask',
+    'React',
+    'Angular',
+    'Vue.js',
+    'Node.js',
+    'Laravel',
+    'Symfony',
+    'Spring',
+    'ASP.NET',
+    'Rails',
+    'Docker',
+    'Kubernetes',
+    'AWS',
+    'Azure'
 ];
 
 foreach ($skills as $skill) {
