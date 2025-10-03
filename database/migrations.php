@@ -1,6 +1,14 @@
  <?php
 require_once '../ClassAutoLoad.php'; // Include the autoloader
 
+// Method to disable foreign key checks
+$disable_fk_checks = $SQL->disableForeignKeyChecks();
+if ($disable_fk_checks === TRUE) {
+  echo "Foreign key checks disabled successfully | ";
+} else {
+  echo "Error disabling foreign key checks: " . $disable_fk_checks;
+}
+
 // Method to drop users table if exists
 $drop_users = $SQL->dropTable('users');
 
@@ -106,6 +114,14 @@ if ($alter_user_skills_table === TRUE) {
   echo "Foreign key constraints added to user_skills table successfully | ";
 } else {
   echo "Error adding foreign key constraints: " . $alter_user_skills_table;
+}
+
+// Method to enable foreign key checks
+$enable_fk_checks = $SQL->enableForeignKeyChecks();
+if ($enable_fk_checks === TRUE) {
+  echo "Foreign key checks enabled successfully | ";
+} else {
+  echo "Error enabling foreign key checks: " . $enable_fk_checks;
 }
 
 // Method to close the database connection
