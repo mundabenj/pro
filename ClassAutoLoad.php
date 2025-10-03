@@ -35,3 +35,5 @@ $ObjAuth = new Auth();
 $ObjFncs = new fncs();
 
 $ObjAuth->signup();
+$ObjAuth->verify_code();
+$ObjAuth->forgot_password();
