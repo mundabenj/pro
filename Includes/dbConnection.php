@@ -225,6 +225,18 @@ class dbConnection{
 	Method to execute custom migrations queries (tested) for DROP, CREATE, ALTER
 	******************************************************************************************/
 
+    // Method to Disable Foreign Key Checks in MySQL
+    public function disableForeignKeyChecks() {
+        $sql = "SET FOREIGN_KEY_CHECKS = 0";
+        return $this->extracted($sql);
+    }
+
+    // Method to Enable Foreign Key Checks in MySQL
+    public function enableForeignKeyChecks() {
+        $sql = "SET FOREIGN_KEY_CHECKS = 1";
+        return $this->extracted($sql);
+    }
+
         // Method to drop a table (for testing purposes)
     public function dropTable($tableName) {
         $sql = "DROP TABLE IF EXISTS `$tableName`";

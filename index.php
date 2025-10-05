@@ -1,8 +1,8 @@
 <?php
-require 'ClassAutoLoad.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ClassAutoLoad.php';
 
-$ObjLayout->header($conf);
-$ObjLayout->navbar($conf);
-$ObjLayout->banner($conf);
-$ObjLayout->content($conf);
-$ObjLayout->footer($conf);
+$ObjLayout->header();
+$ObjLayout->navbar();
+$ObjLayout->banner();
+$ObjLayout->content();
+$ObjLayout->footer();

@@ -1,6 +1,7 @@
 <?php
 class layouts {
-    public function header($conf) {
+    public function header() {
+         global $conf;
         ?>
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="auto">
@@ -18,7 +19,8 @@ class layouts {
          <div class="container py-4">
         <?php
     }
-    public function navbar($conf) {
+    public function navbar() {
+         global $conf;
         ?>
          <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Fifth navbar example">
             <div class="container-fluid">
@@ -35,7 +37,8 @@ class layouts {
          </nav>
     <?php
                   }
-public function banner($conf) {
+public function banner() {
+         global $conf;
         ?>
             <div class="p-1 mb-4 bg-body-tertiary rounded-3">
                <div class="container-fluid py-1">
@@ -47,7 +50,8 @@ public function banner($conf) {
             </div>
         <?php
     }
-public function content($conf) {
+public function content() {
+         global $conf;
         ?>
             <div class="row align-items-md-stretch">
                <div class="col-md-6">
@@ -67,12 +71,13 @@ public function content($conf) {
             </div>
         <?php
     }
-    public function form_content($conf, $ObjForm, $ObjFncs) {
+    public function form_content() {
+         global $conf, $ObjForm, $ObjFncs;
         ?>
             <div class="row align-items-md-stretch">
                <div class="col-md-6">
                   <div class="h-100 p-5 text-bg-dark rounded-3">
-                     <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') {$ObjForm->signup($conf, $ObjFncs); } elseif(basename($_SERVER['PHP_SELF']) == 'signin.php') {$ObjForm->signin($conf, $ObjFncs); } elseif(basename($_SERVER['PHP_SELF']) == 'verify_code.php') {$ObjForm->verify_code($conf, $ObjFncs); } elseif(basename($_SERVER['PHP_SELF']) == 'forgot_password.php') {$ObjForm->forgot_password($conf, $ObjFncs); } ?>
+                     <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') {$ObjForm->signup(); } elseif(basename($_SERVER['PHP_SELF']) == 'signin.php') {$ObjForm->signin(); } elseif(basename($_SERVER['PHP_SELF']) == 'verify_code.php') {$ObjForm->verify_code(); } elseif(basename($_SERVER['PHP_SELF']) == 'forgot_password.php') {$ObjForm->forgot_password(); } ?>
                   </div>
                </div>
                <div class="col-md-6">
@@ -85,7 +90,8 @@ public function content($conf) {
             </div>
         <?php
     }
-    public function footer($conf) {
+    public function footer() {
+         global $conf;
         ?>
             <footer class="pt-3 mt-4 text-body-secondary border-top">
               <p>Copyright &copy; <?php print date("Y"); ?> <?php print $conf['site_name']; ?> - All Rights Reserved</p> 
