@@ -77,7 +77,7 @@ public function content() {
             <div class="row align-items-md-stretch">
                <div class="col-md-6">
                   <div class="h-100 p-5 text-bg-dark rounded-3">
-                     <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') {$ObjForm->signup(); } elseif(basename($_SERVER['PHP_SELF']) == 'signin.php') {$ObjForm->signin(); } elseif(basename($_SERVER['PHP_SELF']) == 'verify_code.php') {$ObjForm->verify_code(); } elseif(basename($_SERVER['PHP_SELF']) == 'forgot_password.php') {$ObjForm->forgot_password(); } ?>
+                     <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') {$ObjForm->signup(); } elseif(basename($_SERVER['PHP_SELF']) == 'signin.php') {$ObjForm->signin(); } elseif(basename($_SERVER['PHP_SELF']) == 'verify_code.php') {$ObjForm->verify_code(); } elseif(basename($_SERVER['PHP_SELF']) == 'forgot_password.php')  {$ObjForm->forgot_password(); } elseif(basename($_SERVER['PHP_SELF']) == 'change_password.php')  {$ObjForm->change_password(); } ?>
                   </div>
                </div>
                <div class="col-md-6">
