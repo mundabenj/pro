@@ -377,15 +377,14 @@ public function change_password(){
                     exit();
                 }
             }
+        }else{
+                $ObjFncs->setMsg('errors', $errors, 'danger'); // Set errors in session
+                $ObjFncs->setMsg('msg', 'Please fix the errors below and try again.', 'danger'); // General error message
+                header("Location: change_password.php"); // Redirect to change password page
+                exit();
+            }
         }
     }
-}else{
-        $ObjFncs->setMsg('errors', $errors, 'danger'); // Set errors in session
-        $ObjFncs->setMsg('msg', 'Please fix the errors below and try again.', 'danger'); // General error message
-        header("Location: change_password.php"); // Redirect to change password page
-        exit();
-    }
-}
 public function signin(){
     global $conf, $ObjFncs, $lang, $ObjSendMail, $SQL;
     // code for signin
@@ -456,13 +455,12 @@ public function signin(){
                 header("Location: signin.php"); // Redirect to signin page
                 exit();
             }
+        }else{
+            $ObjFncs->setMsg('errors', $errors, 'danger'); // Set errors in session
+            $ObjFncs->setMsg('msg', 'Please fix the errors below and try again.', 'danger'); // General error message
+            header("Location: signin.php"); // Redirect to signin page
+            exit();
         }
-    }
-}else{
-        $ObjFncs->setMsg('errors', $errors, 'danger'); // Set errors in session
-        $ObjFncs->setMsg('msg', 'Please fix the errors below and try again.', 'danger'); // General error message
-        header("Location: signin.php"); // Redirect to signin page
-        exit();
     }
 }
 }
