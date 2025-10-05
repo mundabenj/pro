@@ -68,6 +68,7 @@ class forms {
     }
 
     public function signin() {
+      global $conf, $ObjFncs;
       $err = $ObjFncs->getMsg('errors'); print $ObjFncs->getMsg('msg');
         ?>
     <h1>Sign In</h1>
