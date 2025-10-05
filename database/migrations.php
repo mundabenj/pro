@@ -1,13 +1,8 @@
- <?php
+<?php
 require_once '../ClassAutoLoad.php'; // Include the autoloader
 
 // Method to disable foreign key checks
 $disable_fk_checks = $SQL->disableForeignKeyChecks();
-if ($disable_fk_checks === TRUE) {
-  echo "Foreign key checks disabled successfully | ";
-} else {
-  echo "Error disabling foreign key checks: " . $disable_fk_checks;
-}
 
 // Method to drop users table if exists
 $drop_users = $SQL->dropTable('users');
@@ -28,12 +23,6 @@ $create_users = $SQL->createTable('users', [
     'genderId' => 'tinyint(1) not null default 1'
 ]);
 
-if ($create_users === TRUE) {
-  echo "Table users created successfully | ";
-} else {
-  echo "Error creating table: " . $create_users;
-}
-
 // Method to drop roles table if exists
 $drop_roles = $SQL->dropTable('roles');
 
@@ -45,12 +34,6 @@ $create_roles = $SQL->createTable('roles', [
     'updated' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
 ]);
 
-if ($create_roles === TRUE) {
-  echo "Table roles created successfully | ";
-} else {
-  echo "Error creating table: " . $create_roles;
-}
-
 // Method to drop genders table if exists
 $drop_genders = $SQL->dropTable('genders');
 
@@ -61,12 +44,6 @@ $create_genders = $SQL->createTable('genders', [
     'created' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP',
     'updated' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
 ]);
-
-if ($create_genders === TRUE) {
-  echo "Table genders created successfully | ";
-} else {
-  echo "Error creating table: " . $create_genders;
-}
 
 // Method to drop skills table if exists
 $drop_skills = $SQL->dropTable('skills');
@@ -92,37 +69,38 @@ $create_user_skills = $SQL->createTable('user_skills', [
     'updated' => 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'
 ]);
 
-if ($create_user_skills === TRUE) {
-  echo "Table user_skills created successfully | ";
-} else {
-  echo "Error creating table: " . $create_user_skills;
-}
-
 // Method to add constraints to users table
-$alter_users_table = $SQL->addConstraint('users', 'roles', 'roleId', 'CASCADE', 'CASCADE');
-$alter_users_table = $SQL->addConstraint('users', 'genders', 'genderId', 'CASCADE', 'CASCADE');
-if ($alter_users_table === TRUE) {
-  echo "Foreign key constraints added to users table successfully | ";
-} else {
-  echo "Error adding foreign key constraints: " . $alter_users_table;
-}
+$alter_users_roles_constraint = $SQL->addConstraint('users', 'roles', 'roleId', 'CASCADE', 'CASCADE');
+$alter_users_genders_constraint = $SQL->addConstraint('users', 'genders', 'genderId', 'CASCADE', 'CASCADE');
 
 // Method to add constraints to user_skills table
-$alter_user_skills_table = $SQL->addConstraint('user_skills', 'users', 'userId', 'CASCADE', 'CASCADE');
-$alter_user_skills_table = $SQL->addConstraint('user_skills', 'skills', 'skillId', 'CASCADE', 'CASCADE');
-if ($alter_user_skills_table === TRUE) {
-  echo "Foreign key constraints added to user_skills table successfully | ";
-} else {
-  echo "Error adding foreign key constraints: " . $alter_user_skills_table;
-}
+$alter_user_skills_users_constraint = $SQL->addConstraint('user_skills', 'users', 'userId', 'CASCADE', 'CASCADE');
+$alter_user_skills_skills_constraint = $SQL->addConstraint('user_skills', 'skills', 'skillId', 'CASCADE', 'CASCADE');
 
 // Method to enable foreign key checks
 $enable_fk_checks = $SQL->enableForeignKeyChecks();
-if ($enable_fk_checks === TRUE) {
-  echo "Foreign key checks enabled successfully | ";
-} else {
-  echo "Error enabling foreign key checks: " . $enable_fk_checks;
-}
 
-// Method to close the database connection
-$SQL->closeConnection();
+// Message to show each operation status
+$operations = [
+    'Disable Foreign Key Checks' => $disable_fk_checks,
+    'Drop Users Table' => $drop_users,
+    'Create Users Table' => $create_users,
+    'Drop Roles Table' => $drop_roles,
+    'Create Roles Table' => $create_roles,
+    'Drop Genders Table' => $drop_genders,
+    'Create Genders Table' => $create_genders,
+    'Drop Skills Table' => $drop_skills,
+    'Create Skills Table' => $create_skills,
+    'Drop User Skills Table' => $drop_user_skills,
+    'Create User Skills Table' => $create_user_skills,
+    'Alter Users Table' => $alter_users_roles_constraint,
+    'Alter User Skills Table' => $alter_user_skills_users_constraint,
+    'Enable Foreign Key Checks' => $enable_fk_checks
+];
+foreach ($operations as $operation => $result) {
+    if ($result) {
+        echo "$operation: Success | " . date('Y-m-d H:i:s') . "\n";
+    } else {
+        echo "$operation: Failed | " . date('Y-m-d H:i:s') . "\n";
+    }
+}
