@@ -181,11 +181,11 @@ public function verify_code(){
             $check_code_res = $SQL->count_results(sprintf("SELECT verify_code FROM users WHERE verify_code = '%s' AND code_expiry_time >= '%s' LIMIT 1", $verification_code, $current_time));
             if ($check_code_res > 0){
                 // Update user status to Active and clear the verification code and expiry time
-                $update_data = array('status'=>'Active', 'verify_code'=>NULL, 'code_expiry_time'=>NULL);
+                $update_data = array('status' => 'Active', 'verify_code' => NULL, 'code_expiry_time' => NULL);
                 $update_user = $SQL->update('users', $update_data, sprintf("verify_code = '%s'", $verification_code));
 
                 if($update_user === TRUE){
-                    $ObjFncs->setMsg('msg', 'Account verified successfully. You can now sign in.', 'success'); // Success message
+                    $ObjFncs->setMsg('msg', 'Account verified successfully. You can now sign in.', '    success'); // Success message
                     header("Location: signin.php"); // Redirect to signin page
                     exit();
                 }else{
