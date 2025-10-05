@@ -83,21 +83,21 @@ public function change_password() {
       <?php if(isset($_SESSION['origin']) && $_SESSION['origin'] == 'forgot_password.php') { ?>
       <div class="mb-3">
         <label for="current_password" class="form-label">Current Password</label>
-        <input type="password" class="form-control" id="current_password" name="current_password" required>
+        <input type="password" class="form-control" id="current_password" name="current_password" value="<?php echo isset($_SESSION['current_password']) ? $_SESSION['current_password'] : ''; ?>" required>
         <?php print (isset($err['currentPassword_error']) ? '<div id="currentPasswordHelp" class="alert alert-danger">'.$err['currentPassword_error'].'</div>' : ''); ?>
       </div>
       <?php } ?>
       <div class="mb-3">
         <label for="new_password" class="form-label">New Password</label>
-        <input type="password" class="form-control" id="new_password" name="new_password" required>
+        <input type="password" class="form-control" id="new_password" name="new_password" value="<?php echo isset($_SESSION['new_password']) ? $_SESSION['new_password'] : ''; ?>" required>
         <?php print (isset($err['newPassword_error']) ? '<div id="newPasswordHelp" class="alert alert-danger">'.$err['newPassword_error'].'</div>' : ''); ?>
       </div>
       <div class="mb-3">
         <label for="confirm_password" class="form-label">Confirm Password</label>
-        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" value="<?php echo isset($_SESSION['confirm_password']) ? $_SESSION['confirm_password'] : ''; ?>" required>
         <?php print (isset($err['confirmPassword_error']) ? '<div id="confirmPasswordHelp" class="alert alert-danger">'.$err['confirmPassword_error'].'</div>' : ''); ?>
       </div>
-      <?php $this->submit_button("Change Password", "change_password"); ?>
+      <?php $this->submit_button("Change Password", "change_password"); ?> Remembered your password? <a href="signin.php">Sign In</a>
     </form>
     <?php
     }

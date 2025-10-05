@@ -37,5 +37,5 @@ $ObjFncs = new fncs();
 $ObjAuth->signup();
 $ObjAuth->verify_code();
 $ObjAuth->forgot_password();
-// $ObjAuth->change_password();
-// $ObjAuth->signin();
+$ObjAuth->change_password();
+$ObjAuth->signin();
