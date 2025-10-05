@@ -63,4 +63,17 @@ foreach ($skills as $skill) {
     $SQL->insert('skills', ['skillName' => $skill]);
 }
 
-echo "Database seeding completed. | " . date('Y-m-d H:i:s');
+// Message to show each operation status
+$operations = [
+    'Insert Roles' => $SQL->insert('roles', ['roleName' => $role]),
+    'Insert Genders' => $SQL->insert('genders', ['genderName' => $gender]),
+    'Insert Skills' => $SQL->insert('skills', ['skillName' => $skill])
+];
+
+foreach ($operations as $operation => $result) {
+    if ($result) {
+        echo "$operation: Success | " . date('Y-m-d H:i:s') . "\n";
+    } else {
+        echo "$operation: Failed | " . date('Y-m-d H:i:s') . "\n";
+    }
+}
