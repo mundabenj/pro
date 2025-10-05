@@ -107,15 +107,27 @@ public function change_password() {
       $err = $ObjFncs->getMsg('errors'); print $ObjFncs->getMsg('msg');
         ?>
     <h1>Sign In</h1>
-    <form>
+    <form action="" method="post" autocomplete="off">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text"></div>
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" maxlength="100" placeholder="Enter your email" value="<?php echo isset($_SESSION['email']) ? $_SESSION['email'] : ''; ?>" required>
+        <?php print (isset($err['mailFormat_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['mailFormat_error'].'</div>' : ''); ?>
+        <?php print (isset($err['emailNotFound_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['emailNotFound_error'].'</div>' : ''); ?>
+        <?php print (isset($err['accountInactive_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['accountInactive_error'].'</div>' : ''); ?>
+        <?php print (isset($err['accountSuspended_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['accountSuspended_error'].'</div>' : ''); ?>
+        <?php print (isset($err['accountDeleted_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['accountDeleted_error'].'</div>' : ''); ?>
+        <?php print (isset($err['invalidCredentials_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['invalidCredentials_error'].'</div>' : ''); ?>
+        <?php print (isset($err['userNotFound_error']) ? '<div id="emailHelp" class="alert alert-danger">'.$err['userNotFound_error'].'</div>' : ''); ?>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" placeholder="Enter your password" value="<?php echo isset($_SESSION['password']) ? $_SESSION['password'] : ''; ?>" required>
+        <?php print (isset($err['passwordFormat_error']) ? '<div id="passwordHelp" class="alert alert-danger">'.$err['passwordFormat_error'].'</div>' : ''); ?>
+        <?php print (isset($err['invalidCredentials_error']) ? '<div id="passwordHelp" class="alert alert-danger">'.$err['invalidCredentials_error'].'</div>' : ''); ?>
+        <?php print (isset($err['userNotFound_error']) ? '<div id="passwordHelp" class="alert alert-danger">'.$err['userNotFound_error'].'</div>' : ''); ?>
+        <?php print (isset($err['invalidLogin_error']) ? '<div id="passwordHelp" class="alert alert-danger">'.$err['invalidLogin_error'].'</div>' : ''); ?>
+        <input type="hidden" name="origin" value="<?php print basename($_SERVER['PHP_SELF']); ?>">
+
       </div>
         <?php $this->submit_button("Sign In", "signin"); ?> Don't have an account? <a href="signup.php">Sign up</a> Or <a href="forgot_password.php">Reset password</a>
     </form>

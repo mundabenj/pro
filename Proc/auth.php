@@ -434,7 +434,7 @@ public function signin(){
                         $_SESSION['userId'] = $user_info['userId'];
                         $_SESSION['fullname'] = $user_info['fullname'];
                         $_SESSION['email'] = $user_info['email'];
-                        $_SESSION['loggedin'] = true; // Example session variable to indicate logged-in status
+                        $_SESSION['consort'] = true; // Example session variable to indicate logged-in status
                         $ObjFncs->setMsg('msg', 'Signin successful. Welcome back!', 'success'); // Success message
                         header("Location: dashboard.php"); // Redirect to dashboard or home page
                         exit();
@@ -467,4 +467,16 @@ public function signin(){
         }
     }
 }
+// Method to handle signout
+    public function signout(){
+        global $ObjFncs, $conf;
+        // Signout process
+        if(isset($_GET["signout"])){
+                // Clear all session data
+                unset($_SESSION["consort"]);
+                session_destroy();
+                header("Location: signin.php"); // Redirect to signin page
+                exit();
+        }
+    }
 }

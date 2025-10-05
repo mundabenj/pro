@@ -8,7 +8,7 @@ if (!file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'conf.php')) {
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'conf.php'; // Include configuration file
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "Includes/dbConnection.php";
 // Directories to search for class files
-$directories = ["Forms", "Layouts", "Globals", "Proc", "Fncs"];
+$directories = ["Forms", "Layouts", "Globals", "Proc"];
 
 // Autoload classes from specified directories
 spl_autoload_register(function ($className) use ($directories) {
@@ -39,3 +39,10 @@ $ObjAuth->verify_code();
 $ObjAuth->forgot_password();
 $ObjAuth->change_password();
 $ObjAuth->signin();
+$ObjAuth->signout();
+
+// All files that must verify user is logged in
+$protected_files = ['dashboard.php'];
+if (in_array(basename($_SERVER['PHP_SELF']), $protected_files)) {
+    $ObjFncs->checksignin();
+}
