@@ -13,6 +13,11 @@ class layouts {
       <meta name="generator" content="<?php print $conf['version']; ?>">
       <title><?php print $conf['site_title']; ?></title>
       <link href="<?php print $conf['site_url']; ?>css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+      <!-- For the tables  -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
+
    </head>
    <body>
       <main>
@@ -30,6 +35,7 @@ class layouts {
                      <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'index.php') print 'active'; ?>" aria-current="page" href="<?php print $ObjFncs->home_url(); ?>">Home</a> </li>
                      <?php if(isset($_SESSION['consort']) && $_SESSION['consort'] === true) { ?>
                      <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'dashboard.php') print 'active'; ?>" href="dashboard.php">Dashboard</a> </li>
+                     <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'users.php') print 'active'; ?>" href="users.php">Users</a> </li>
                      <li class="nav-item"> <a class="nav-link" href="?signout">Sign out</a> </li>
                      <?php } else { ?>
                      <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') print 'active'; ?>" href="signup.php">Sign Up</a> </li>
@@ -95,6 +101,20 @@ public function content() {
             </div>
         <?php
     }
+
+    public function table_content() {
+         global $conf, $ObjForm, $ObjFncs;
+        ?>
+            <div class="row align-items-md-stretch">
+               <div class="col-md-12">
+                  <div class="h-100 p-5 text-bg-dark rounded-3">
+                     <?php if(basename($_SERVER['PHP_SELF']) == 'users.php')  {$ObjTable->users_table(); } ?>
+                     <button class="btn btn-outline-secondary" type="button">Example button</button> 
+                  </div>
+               </div>
+            </div>
+        <?php
+    }
     public function footer() {
          global $conf;
         ?>
@@ -104,6 +124,18 @@ public function content() {
          </div>
       </main>
       <script src="<?php print $conf['site_url']; ?>js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+      <!-- for the tables -->
+       
+      <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+      <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+   <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
    </body>
 </html>
         <?php

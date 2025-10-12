@@ -7,7 +7,7 @@ if (!file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'conf.php')) {
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'conf.php'; // Include configuration file
 require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . "Includes/dbConnection.php";
 // Directories to search for class files
-$directories = ["Forms", "Layouts", "Globals", "Proc"];
+$directories = ["Forms", "Layouts", "Globals", "Proc", "Tables"];
 
 // Autoload classes from specified directories
 spl_autoload_register(function ($className) use ($directories) {
@@ -29,6 +29,7 @@ $SQL = New dbConnection($conf['db_type'], $conf['db_host'], $conf['db_name'], $c
 $ObjSendMail = new SendMail();
 $ObjForm = new forms();
 $ObjLayout = new layouts();
+$ObjTable = new tables();
 
 $ObjAuth = new Auth();
 $ObjFncs = new fncs();
