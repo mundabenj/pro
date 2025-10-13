@@ -15,9 +15,7 @@ class layouts {
       <link href="<?php print $conf['site_url']; ?>css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
       <!-- For the tables  -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
-
    </head>
    <body>
       <main>
@@ -116,7 +114,7 @@ public function content() {
         <?php
     }
     public function footer() {
-         global $conf;
+         global $conf, $SQL;
         ?>
             <footer class="pt-3 mt-4 text-body-secondary border-top">
               <p>Copyright &copy; <?php print date("Y"); ?> <?php print $conf['site_name']; ?> - All Rights Reserved</p> 
@@ -127,13 +125,40 @@ public function content() {
 
       <!-- for the tables -->
        
-      <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-      <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
-      <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
-   <script>
-        $(document).ready(function () {
-            $('#example').DataTable();
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+<script>
+<?php
+// Initialize DataTables for each role-based table
+        $users = $SQL->select_while("SELECT * FROM roles WHERE roleId > 1 ORDER BY roleId ASC");
+if($users){
+    foreach($users as $row){
+    ?>
+        // Initialize the first table
+        var table<?php echo $row['roleId']; ?> = $('#myTable'+<?php echo $row['roleId']; ?>).DataTable({
+            "ajax": {
+                "url": "<?php echo $conf['site_url']; ?>Tables/user_list.php",
+                "type": "POST",
+                "data": function (d) {
+                    // Add custom parameters here
+                    d.roleName = '<?php echo $row['roleName']; ?>';
+                }
+            },
+            "columns": [
+                { "data": 0 },
+                { "data": 1 },
+                { "data": 2 },
+                { "data": 3 }
+            ]
+        });
+        <?php
+    }
+}
+?>
+        // Handle tab shown event to adjust DataTable columns
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+            $.fn.dataTable.tables({visible: true, api: true}).columns.adjust();
         });
     </script>
    </body>

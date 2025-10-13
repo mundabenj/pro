@@ -2,36 +2,47 @@
 class tables{
     public function users_table(){
         global $conf, $ObjFncs, $SQL;
-        $users = $SQL->select_while("SELECT * FROM users WHERE roleId > 1");
-        if($users) {
-            ?>
-            <table id="example" class="table table-striped">
-               <thead>
-                  <tr>
-                     <th>ID</th>
-                     <th>Name</th>
-                     <th>Email</th>
-                     <th>Actions</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <?php foreach($users as $user) { ?>
-                  <tr>
-                     <td><?php print $user['userId']; ?></td>
-                     <td><?php print $user['fullname']; ?></td>
-                     <td><?php print $user['email']; ?></td>
-                     <td>
-                        <a href="edit_user.php?id=<?php print $user['userId']; ?>" class="btn btn-primary">Edit</a>
-                        <a href="delete_user.php?id=<?php print $user['userId']; ?>" class="btn btn-danger">Delete</a>
-                     </td>
-                  </tr>
-                  <?php } ?>
-               </tbody>
-            </table>
+        $users = $SQL->select_while("SELECT * FROM roles WHERE roleId > 1 ORDER BY roleId ASC");
+         $spot_init = $SQL->select("SELECT MIN(roleId) AS minRoleId FROM roles WHERE roleId > 1");
 
+         $min_row = $spot_init['minRoleId'];
+?>
+        <ul class="nav nav-tabs" role="tablist">
             <?php
-        } else {
-            print '<p>No users found.</p>';
-        }
+            if($users) {
+                foreach($users as $index => $role) {
+                    $active_class = ($role['roleId'] == $min_row) ? 'active' : '';
+                    ?>
+                    <li class="nav-item" role="presentation"><button class="nav-link <?php echo $active_class; ?>" href="#tab-table<?php echo $role['roleId']; ?>" data-bs-toggle="tab" data-bs-target="#tab-table<?php echo $role['roleId']; ?>"><?php echo ucwords($role['roleName']); ?></button></li>
+                    <?php
+                }
+            }
+            ?>
+        </ul>
+      <div class="tab-content pt-2">
+   <?php
+   // Dynamic tabs for each role
+               if($users){
+                  foreach($users as $index => $role) {
+                     $activeClass = ($role['roleId'] == $min_row) ? 'active' : '';
+                     ?>
+                     <div class="tab-pane <?php echo $activeClass; ?>" id="tab-table<?php echo $role['roleId']; ?>">
+                        <table id="myTable<?php echo $role['roleId']; ?>" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                           <thead>
+                                 <tr>
+                                    <th>ID</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                 </tr>
+                           </thead>
+                        </table>
+                     </div>
+                  <?php
+                  }
+               }
+   ?>
+         </div>
+   <?php
     }
 }
