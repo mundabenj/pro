@@ -67,7 +67,7 @@ foreach ($skills as $skill) {
 $operations = [
     'Insert Roles' => $SQL->insert('roles', ['roleName' => $role]),
     'Insert Genders' => $SQL->insert('genders', ['genderName' => $gender]),
-    'Insert Skills' => $SQL->insert('skills', ['skillName' => $skill])
+    'Insert Skills' => $SQL->insert('skills', ['skillName' => $skill]),
 ];
 
 foreach ($operations as $operation => $result) {

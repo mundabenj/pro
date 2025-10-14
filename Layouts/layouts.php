@@ -130,32 +130,32 @@ public function content() {
 <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
 <script>
 <?php
-// Initialize DataTables for each role-based table
-        $users = $SQL->select_while("SELECT * FROM roles WHERE roleId > 1 ORDER BY roleId ASC");
-if($users){
-    foreach($users as $row){
-    ?>
-        // Initialize the first table
-        var table<?php echo $row['roleId']; ?> = $('#myTable'+<?php echo $row['roleId']; ?>).DataTable({
-            "ajax": {
-                "url": "<?php echo $conf['site_url']; ?>Tables/user_list.php",
-                "type": "POST",
-                "data": function (d) {
-                    // Add custom parameters here
-                    d.roleName = '<?php echo $row['roleName']; ?>';
-                }
-            },
-            "columns": [
-                { "data": 0 },
-                { "data": 1 },
-                { "data": 2 },
-                { "data": 3 }
-            ]
-        });
-        <?php
-    }
-}
-?>
+   // Initialize DataTables for each role-based table
+   $users = $SQL->select_while("SELECT * FROM roles WHERE roleId > 1 ORDER BY roleId ASC");
+   if($users){
+      foreach($users as $row){
+      ?>
+         // Initialize the first table
+         var table<?php echo $row['roleId']; ?> = $('#myTable'+<?php echo $row['roleId']; ?>).DataTable({
+               "ajax": {
+                  "url": "<?php echo $conf['site_url']; ?>Tables/user_list.php",
+                  "type": "POST",
+                  "data": function (d) {
+                     // Add custom parameters here
+                     d.roleName = '<?php echo $row['roleName']; ?>';
+                  }
+               },
+               "columns": [
+                  { "data": 0 },
+                  { "data": 1 },
+                  { "data": 2 },
+                  { "data": 3 }
+               ]
+         });
+         <?php
+      }
+   }
+   ?>
         // Handle tab shown event to adjust DataTable columns
         $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
             $.fn.dataTable.tables({visible: true, api: true}).columns.adjust();

@@ -16,7 +16,6 @@ if (isset($_POST['roleName'])) {
     $users = $SQL->select_while("SELECT fullname, email, roleName FROM users JOIN roles USING(roleId)");
 }
 
-
 $data = [];
 if ($users) {
     $sn = 1;
