@@ -27,7 +27,7 @@ class tables{
                $activeClass = ($role['roleId'] == $min_row) ? 'active' : '';
                ?>
                <div class="tab-pane <?php echo $activeClass; ?>" id="tab-table<?php echo $role['roleId']; ?>">
-                  <table id="myTable<?php echo $role['roleId']; ?>" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                  <table id="myTable<?php echo $role['roleId']; ?>" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
                      <thead>
                            <tr>
                               <th>ID</th>
