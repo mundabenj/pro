@@ -42,7 +42,7 @@ $ObjAuth->signin();
 $ObjAuth->signout();
 
 // All files that must verify user is logged in
-$protected_files = ['dashboard.php'];
+$protected_files = ['dashboard.php', 'users.php'];
 if (in_array(basename($_SERVER['PHP_SELF']), $protected_files)) {
     $ObjFncs->checksignin();
 }
