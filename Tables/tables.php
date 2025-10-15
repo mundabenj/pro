@@ -45,4 +45,44 @@ class tables{
       </div>
    <?php
     }
+
+    public function people_table(){
+      global $conf, $ObjFncs, $SQL;
+      $people = $SQL->select_while("SELECT * FROM users left JOIN roles using(roleId) WHERE users.roleId > 1 ORDER BY users.fullname ASC");
+?>
+    <table id="people" class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if($people) {
+         $sn = 0;
+          foreach($people as $index => $person) {
+            $sn++;
+?>
+                <tr>
+                <td><?php echo htmlspecialchars($sn); ?></td>
+                <td><?php echo htmlspecialchars($person['fullname']); ?></td>
+                <td><?php echo htmlspecialchars($person['email']); ?></td>
+                <td><?php echo htmlspecialchars($person['roleName']); ?></td>
+                <td>
+                  <button class="btn btn-sm btn-primary">Edit</button>
+                  <button class="btn btn-sm btn-danger">Del</button>
+                </td>
+                </tr>
+<?php
+          }
+        }
+        ?>
+      </tbody>
+    </table>
+<?php
+    }
 }

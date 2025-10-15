@@ -35,6 +35,7 @@ class layouts {
                      <?php if(isset($_SESSION['consort']) && $_SESSION['consort'] === true) { ?>
                      <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'dashboard.php') print 'active'; ?>" href="dashboard.php">Dashboard</a> </li>
                      <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'users.php') print 'active'; ?>" href="users.php">Users</a> </li>
+                     <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'people.php') print 'active'; ?>" href="people.php">People</a> </li>
                      <li class="nav-item"> <a class="nav-link" href="?signout">Sign out</a> </li>
                      <?php } else { ?>
                      <li class="nav-item"> <a class="nav-link <?php if(basename($_SERVER['PHP_SELF']) == 'signup.php') print 'active'; ?>" href="signup.php">Sign Up</a> </li>
@@ -102,13 +103,12 @@ public function content() {
     }
 
     public function table_content() {
-         global $conf, $ObjForm, $ObjFncs;
+         global $conf, $ObjForm, $ObjFncs, $ObjTable;
         ?>
             <div class="row align-items-md-stretch">
                <div class="col-md-12">
-                  <div class="h-100 p-5 text-bg-dark rounded-3">
-                     <?php if(basename($_SERVER['PHP_SELF']) == 'users.php')  {$ObjTable->users_table(); } ?>
-                     <button class="btn btn-outline-secondary" type="button">Example button</button> 
+                  <div class="h-100 p-1 text-bg-light rounded-3">
+                     <?php if(basename($_SERVER['PHP_SELF']) == 'users.php')  {$ObjTable->users_table(); } elseif(basename($_SERVER['PHP_SELF']) == 'people.php')  {$ObjTable->people_table(); } ?> 
                   </div>
                </div>
             </div>
@@ -175,6 +175,17 @@ public function content() {
         $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
             $.fn.dataTable.tables({visible: true, api: true}).columns.adjust();
         });
+
+        $(document).ready(function () {
+            $('#people').DataTable();
+        });
+        new DataTable('#people', {
+            layout: {
+               topStart: {
+                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+               }
+            }
+         });
     </script>
    </body>
 </html>
