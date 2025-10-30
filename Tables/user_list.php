@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '../ClassAutoLoad.php'; /
 header('Content-Type: application/json');
 global $SQL;
 if (!$SQL) {
-    echo json_encode(["data" => [], "error" => "Connection failed: " . $conn->connect_error]);
+    echo json_encode(["data" => [], "error" => "Connection failed: " . $SQL]);
     exit();
 }
 
