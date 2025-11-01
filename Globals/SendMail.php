@@ -18,7 +18,7 @@ try {
     $mail->SMTPDebug = SMTP::DEBUG_OFF;                     //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = $conf['smtp_host'];                     //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->SMTPAuth   = TRUE;                                   //Enable SMTP authentication
     $mail->Username   = $conf['smtp_user'];                     //SMTP username
     $mail->Password   = $conf['smtp_pass'];                     //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
