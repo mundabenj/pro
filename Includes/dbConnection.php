@@ -106,7 +106,7 @@ class dbConnection{
                 if ($result instanceof mysqli_result === TRUE) {
                     $count_results = $result->num_rows;
                 } elseif ($result instanceof mysqli_result === FALSE) {
-                    $count_results = "Error 5: " . $sql . "<br />" . $this->connection->error . "<br />";
+                    $count_results = 0;
                 }
                 break;
             case 'PDO':
@@ -326,7 +326,7 @@ class dbConnection{
                 if ($this->connection->query($sth) === TRUE) {
                     $extracted_result = TRUE;
                 } else {
-                    $extracted_result = "Error: " . $sth . "<br />" . $this->connection->error;
+                    $extracted_result = 0;
                 }
                 break;
             case 'PDO':
