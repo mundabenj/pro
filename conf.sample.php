@@ -44,7 +44,7 @@ $conf['version'] = 'v1.0.0';
 
 // Site Language
 $conf['site_lang'] = 'en';
-require_once __DIR__ . "/Lang/" . $conf['site_lang'] . ".php"; // Include language file
+require_once __DIR__ . DIRECTORY_SEPARATOR . "Lang" . DIRECTORY_SEPARATOR . $conf['site_lang'] . ".php"; // Include language file
 
 // Email Configuration
 $conf['mail_type'] = 'smtp'; // Options: 'smtp' or 'mail'

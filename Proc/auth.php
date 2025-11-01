@@ -137,7 +137,6 @@ class auth{
                 header("Location: verify_code.php"); // Redirect to verification page
                 exit();
                 }else{
-                    die('Error: ' . $save_user);
                     $ObjFncs->setMsg('msg', 'Error during sign up. Please try again later.', 'danger'); // Database error message
                     header("Location: signup.php"); // Redirect to signup page
                     exit();
@@ -201,7 +200,6 @@ public function verify_code(){
                     header("Location: " . $redirection); // Redirect to signin or change password page
                     exit();
                 }else{
-                    die('Error: ' . $update_user);
                     $ObjFncs->setMsg('msg', 'Error during account verification. Please try again later.', 'danger'); // Database error message
                     header("Location: verify_code.php"); // Redirect to verification page
                     exit();

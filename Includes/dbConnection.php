@@ -83,7 +83,12 @@ class dbConnection{
     {
         switch ($this->db_type) {
             case 'MySQLi':
-                $this->posted_values = $this->connection->real_escape_string($posted_values);
+                if ($this->connection instanceof mysqli) {
+                    $this->posted_values = $this->connection->real_escape_string($posted_values);
+                } else {
+                    // Fallback: use addslashes if not a mysqli instance
+                    $this->posted_values = addslashes($posted_values);
+                }
                 break;
             case 'PDO':
                 $this->posted_values = addslashes($posted_values);
@@ -97,19 +102,25 @@ class dbConnection{
     public function count_results($sql){
         switch ($this->db_type) {
             case 'MySQLi':
-                if(is_object($this->connection->query($sql))){
-                    $result = $this->connection->query($sql);
-                    return $result->num_rows;
-                }else{
-                    print "Error 5: " . $sql . "<br />" . $this->connection->error . "<br />";
+                $result = $this->connection->query($sql);
+                if ($result instanceof mysqli_result === TRUE) {
+                    $count_results = $result->num_rows;
+                } elseif ($result instanceof mysqli_result === FALSE) {
+                    $count_results = "Error 5: " . $sql . "<br />" . $this->connection->error . "<br />";
                 }
                 break;
             case 'PDO':
                 $res = $this->connection->prepare($sql);
-                $res->execute();
-                return $res->rowCount();
+                if ($res === false) {
+                    print "Error 5: " . $sql . "<br />" . implode(" | ", $this->connection->errorInfo()) . "<br />";
+                    $count_results = 0;
+                } else {
+                    $res->execute();
+                    $count_results = $res->rowCount();
+                }
                 break;
         }
+        return $count_results;
     }
     /******************************************************************************************
     Insert Query (extracted) (tested)
@@ -129,14 +140,19 @@ class dbConnection{
         switch ($this->db_type) {
             case 'MySQLi':
                 $result = $this->connection->query($sql);
-                return $result->fetch_assoc();
+                if ($result instanceof mysqli_result) {
+                    $select_res = $result->fetch_assoc();
+                } else {
+                    $select_res = false;
+                }
                 break;
             case 'PDO':
                 $result = $this->connection->prepare($sql);
                 $result->execute();
-                return $result->fetchAll(PDO::FETCH_ASSOC)[0];
+                $select_res = $result->fetchAll(PDO::FETCH_ASSOC)[0];
                 break;
         }
+        return $select_res;
     }
     /******************************************************************************************
     Select Query While Loop From a DataBase (tested)
@@ -145,15 +161,21 @@ class dbConnection{
         switch ($this->db_type) {
             case 'MySQLi':
                 $result = $this->connection->query($sql);
-                for ($res = array (); $row = $result->fetch_assoc(); $res[] = $row);
-                return $res;
+                $res = array();
+                if ($result instanceof mysqli_result) {
+                    while ($row = $result->fetch_assoc()) {
+                        $res[] = $row;
+                    }
+                }
+                $select_while = $res;
                 break;
             case 'PDO':
                 $result = $this->connection->prepare($sql);
                 $result->execute();
-                return $result->fetchAll(PDO::FETCH_ASSOC);
+                $select_while = $result->fetchAll(PDO::FETCH_ASSOC);
                 break;
         }
+        return $select_while;
     }
     /******************************************************************************************
     Update Query (extracted) (tested)
@@ -218,13 +240,18 @@ class dbConnection{
 	******************************************************************************************/
 	public function last_id(){
 		switch ($this->db_type) {
-		case 'MySQLi':
-			return $this->connection->insert_id;
-		break;
+        case 'MySQLi':
+            if ($this->connection instanceof mysqli) {
+                $last_id = $this->connection->insert_id;
+            } else {
+                $last_id = null;
+            }
+        break;
 		case 'PDO':
-			return $this->connection->lastInsertId();
+			$last_id = $this->connection->lastInsertId();
 		break;
 		}
+		return $last_id;
 	}
 
 	/******************************************************************************************
@@ -297,9 +324,9 @@ class dbConnection{
         switch ($this->db_type) {
             case 'MySQLi':
                 if ($this->connection->query($sth) === TRUE) {
-                    return TRUE;
+                    $extracted_result = TRUE;
                 } else {
-                    return "Error: " . $sth . "<br />" . $this->connection->error;
+                    $extracted_result = "Error: " . $sth . "<br />" . $this->connection->error;
                 }
                 break;
             case 'PDO':
@@ -308,11 +335,12 @@ class dbConnection{
                     $stmt = $this->connection->prepare($sth);
                     // execute the query
                     $stmt->execute();
-                    return TRUE;
+                    $extracted_result = TRUE;
                 } catch (PDOException $e) {
-                    return $sth . "<br />" . $e->getMessage();
+                    $extracted_result = $sth . "<br />" . $e->getMessage();
                 }
                 break;
         }
+        return $extracted_result;
     }
 }
