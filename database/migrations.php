@@ -1,13 +1,6 @@
 <?php
 require_once '../ClassAutoLoad.php'; // Include the autoloader
 
-
-// Method to drop database if exists
-$drop_database = $SQL->dropDatabase($conf['db_name']);
-
-// Create database if not exists
-$create_database = $SQL->createDatabase($conf['db_name']);
-
 // Method to disable foreign key checks
 $disable_fk_checks = $SQL->disableForeignKeyChecks();
 
@@ -89,8 +82,6 @@ $enable_fk_checks = $SQL->enableForeignKeyChecks();
 
 // Message to show each operation status
 $operations = [
-    'Drop Database' => $drop_database,
-    'Create Database' => $create_database,
     'Disable Foreign Key Checks' => $disable_fk_checks,
     'Drop Users Table' => $drop_users,
     'Create Users Table' => $create_users,
