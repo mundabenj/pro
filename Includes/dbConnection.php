@@ -270,7 +270,19 @@ class dbConnection{
         return $this->extracted($sql);
     }
 
-        // Method to drop a table (for testing purposes)
+    // Method to drop a database (for testing purposes)
+    public function dropDatabase($databaseName) {
+        $sql = "DROP DATABASE IF EXISTS `$databaseName`";
+        return $this->extracted($sql);
+    }
+
+    // Method to create a database (for testing purposes)
+    public function createDatabase($databaseName) {
+        $sql = "CREATE DATABASE IF NOT EXISTS `$databaseName`";
+        return $this->extracted($sql);
+    }
+
+    // Method to drop a table (for testing purposes)
     public function dropTable($tableName) {
         $sql = "DROP TABLE IF EXISTS `$tableName`";
         return $this->extracted($sql);
