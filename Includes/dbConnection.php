@@ -326,7 +326,7 @@ class dbConnection{
                 if ($this->connection->query($sth) === TRUE) {
                     $extracted_result = TRUE;
                 } else {
-                    $extracted_result = 0;
+                    $extracted_result = "Error: " . $sth . "<br />" . mysqli_error($this->connection);
                 }
                 break;
             case 'PDO':

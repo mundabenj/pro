@@ -179,13 +179,6 @@ public function content() {
         $(document).ready(function () {
             $('#people').DataTable();
         });
-        new DataTable('#people', {
-            layout: {
-               topStart: {
-                     buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
-               }
-            }
-         });
     </script>
    </body>
 </html>
